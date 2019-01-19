@@ -18,7 +18,7 @@ if not os.path.exists(UPLOAD_DIRECTORY):
     os.makedirs(UPLOAD_DIRECTORY)
 
 # app header
-navbar = dbc.Navbar(
+_navbar = dbc.Navbar(
     children=[
     ],
     brand='Data Prox Master',
@@ -134,7 +134,7 @@ tab1_content = (
 )
 
 # app body
-body = dbc.Container(
+_body = dbc.Container(
     [
         # line space
         dbc.Row(
@@ -169,10 +169,15 @@ body = dbc.Container(
 server = Flask(__name__)
 app = dash.Dash(server=server)
 
-# app layout
-app.layout = html.Div([navbar, body])
-
 
 @server.route('download/<path:path>')
 def download(path):
     return send_from_directory(UPLOAD_DIRECTORY, path, as_attachement=True)
+
+
+# app layout
+app.layout = html.Div([_navbar, _body])
+
+# app main
+if __name__ == "__main__":
+    app.run_server(debug=True, port=8888)
